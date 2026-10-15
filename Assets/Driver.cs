@@ -1,3 +1,4 @@
+using JetBrains.Annotations;
 using System;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -5,47 +6,43 @@ using UnityEngine.InputSystem;
 
 public class Driver : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 1f;
-    [SerializeField] float steerSpeed = 20f;
-    
+    //Component
+    TopDownCarController topDownCarController;
 
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    void Awake()
     {
-        
+        topDownCarController = GetComponent<TopDownCarController>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        float steer = 0f;
-        float move = 0f;
+        Vector2 inputVector = Vector2.zero;
 
+        // Vertical axis
         if (Keyboard.current.wKey.isPressed)
         {
-            move = 1f;
+            inputVector.y = 1f;
         }
-        else if (Keyboard.current.sKey.isPressed)
+        if (Keyboard.current.sKey.isPressed)
         {
-            move = -1f;
-        }
-        if (Keyboard.current.aKey.isPressed && Keyboard.current.wKey.isPressed
-            || Keyboard.current.aKey.isPressed && Keyboard.current.sKey.isPressed)
-        {
-            steer = 150f;
-        }
-        else if (Keyboard.current.dKey.isPressed && Keyboard.current.wKey.isPressed
-            || Keyboard.current.dKey.isPressed && Keyboard.current.sKey.isPressed)
-        {
-            steer = -150f;
+            inputVector.y = -1f;
         }
 
-        float moveAmount = move * moveSpeed * Time.deltaTime;
-        float steerAmount = steer * steerSpeed * Time.deltaTime;
+        // Horizontal axis
+        if (Keyboard.current.dKey.isPressed)
+        {
+            inputVector.x = 1f;
+        }
+        if (Keyboard.current.aKey.isPressed)
+        {
+            inputVector.x = -1f;
+        }
 
-        // Time.deltaTime multiplies depending on the speed of a PC (slow or fast)
-        transform.Translate(0, moveAmount, 0);
-        transform.Rotate(0, 0, steerAmount);
+        if (inputVector.magnitude > 1f)
+        {
+            inputVector = inputVector.normalized;
+        }
+
+        topDownCarController.SetInputVector(inputVector);
     }
 }
