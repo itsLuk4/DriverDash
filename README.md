@@ -2,6 +2,8 @@
 
 Driver Dash is a 2D top-down racing game that showcases driving logic, collision handling, boosts, drifting, and interaction with the environment.
 
+![demo](./Assets/Demo%20GIF's/Unity_rIYMA1Jzbj.gif)
+
 ## Gameplay
 
 - Control your car using the W/A/S/D keys (or arrow keys):
@@ -13,37 +15,28 @@ Driver Dash is a 2D top-down racing game that showcases driving logic, collision
 - Collisions with obstacles are detected and logged.
 - Features include:
   - Smooth acceleration and steering
-  - Collision detection (both physical collisions and triggers)
-  - Boost mechanics (to be implemented)
-  - Drifting mechanics (to be implemented)
-  - Interactive environment (road pieces, barriers, etc.)
-
-## Assets
-
-The game includes a variety of 2D assets:
-- Multiple car designs (pitstop cars)
-- Mechanic characters
-- Road pieces and level designs
-- UI elements (play button, game title, game over menu)
-- Semaphores and traffic signs
+  - Collision detection
+  - Boost pickups
+  - Drifting mechanics
+  - Interactive environment (NPC, Pickup items,...)
+  - Implemented boost mechanic (speed bursts)
 
 ## Technical Details
 
 Built with Unity using C#. Key scripts:
-- `Driver.cs`: Handles vehicle movement and steering based on keyboard input.
-- `Collision.cs`: Logs collision and trigger events for debugging.
-- `Editor/RoadBuilderWindow.cs`: Editor tool for constructing road layouts.
+- `TopDownCarController.cs`: Has all the driving and steering logic. 
+- `Driver.cs`: Has set up Vertical and Horizontal axis when pressing keyboard movement.
+- `Delivery.cs`: Handles OnTrigger situations. Like picking up an item, getting a boost etc.
 
 ## How to Play
 
-1. Open the project in Unity (2021.3 or later recommended).
-2. Open the main scene (to be specified).
+1. Open the project in Unity.
+2. Open the main scene.
 3. Press Play to start.
-4. Use keyboard controls to drive the car.
+4. Use keyboard controls to drive the car "W, S, A, D".
 
 ## Future Features
 
-- Implement boost mechanics (speed bursts)
 - Implement drifting visual effects and mechanics
 - Add lap timing and race logic
 - Expand level variety with different tracks
