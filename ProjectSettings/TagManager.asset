@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 3
-  tags: []
+  tags:
+  - Package
+  - Customer
   layers:
   - Default
   - TransparentFX
@@ -55,6 +57,9 @@ TagManager:
     locked: 0
   - name: Decor
     uniqueID: 4016605641
+    locked: 0
+  - name: NPC
+    uniqueID: 450732631
     locked: 0
   m_RenderingLayers:
   - Default
