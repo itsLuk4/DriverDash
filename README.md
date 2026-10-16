@@ -2,7 +2,9 @@
 
 Driver Dash is a 2D top-down racing game that showcases driving logic, collision handling, boosts, drifting, and interaction with the environment.
 
-![demo](./Assets/Demo%20GIF's/Unity_rIYMA1Jzbj.gif)
+![demo](./Assets/Demo%20GIF's/DriverDash_Smooth.gif)
+
+![demo](./Assets/Demo%20GIF's/DriverDash_ItemPickup.gif)
 
 ## Gameplay
 
