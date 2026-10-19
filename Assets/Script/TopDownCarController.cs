@@ -1,22 +1,30 @@
+using System.Collections;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class TopDownCarController : MonoBehaviour
 {
-    [Header("Car Settings")]
-
-    // this will be use for drifting
-    [SerializeField] float driftFactor = 0.95f;
-    public float accelerationFactor = 30f;
-    [SerializeField] float turnFactor = 3.5f;
-    public float maxSpeed = 20;
-
-    // Local variables
+    
+    
+    [Header("Speed")]
     float accelerationInput = 0;
+    public float accelerationFactor = 30f;
+    public float maxSpeed = 20;
+    
+
+    
+    [Header("Steering")]
+    // Local variables
+    [SerializeField] float driftFactor = 0.95f;
     float steeringInput = 0;
+    [SerializeField] float turnFactor = 3.5f;
     float rotationAngle = 0;
     float velocityVsUp = 0;
+
     // Components
+    [Header("Components")]
     Rigidbody2D carRigidbody2D;
+    Boosts delivery;
 
     // Awake is called when the script instance is being loaded.
     private void Awake()
@@ -27,13 +35,7 @@ public class TopDownCarController : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
+        
     }
 
     void FixedUpdate()
@@ -49,6 +51,7 @@ public class TopDownCarController : MonoBehaviour
 
     void ApplyEngineForce()
     {
+
         // Calculate how much "forward" we are going in terms of the direction of our velocity (
         velocityVsUp = Vector2.Dot(transform.up, carRigidbody2D.linearVelocity);
 

@@ -12,8 +12,8 @@ GameObject:
   - component: {fileID: 5649590537909574514}
   - component: {fileID: 6160527610357953670}
   m_Layer: 0
-  m_Name: Package Pickup
-  m_TagString: Package
+  m_Name: SpeedBoost
+  m_TagString: Boost
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

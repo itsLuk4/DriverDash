@@ -20582,10 +20582,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6411f0811f8dccd49aa1e85702559adb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TopDownCarController
-  driftFactor: 0.95
   accelerationFactor: 4
-  turnFactor: 20
   maxSpeed: 2.85
+  driftFactor: 0.95
+  turnFactor: 20
 --- !u!114 &773660147
 MonoBehaviour:
   m_ObjectHideFlags: 0
