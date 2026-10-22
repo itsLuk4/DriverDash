@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Rendering;
 
@@ -26,13 +27,13 @@ public class TopDownCarController : MonoBehaviour
     Rigidbody2D carRigidbody2D;
     Boosts delivery;
 
-    // Awake is called when the script instance is being loaded.
+    // ---- Awake is called when the script instance is being loaded ---- 
     private void Awake()
     {
         carRigidbody2D = GetComponent<Rigidbody2D>();
     }
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    // ---- Start is called once before the first execution of Update after the MonoBehaviour is created ---- 
     void Start()
     {
         
@@ -40,11 +41,13 @@ public class TopDownCarController : MonoBehaviour
 
     void FixedUpdate()
     {
+
         ApplyEngineForce();
 
         KillOrthogonalVelocity();
 
         ApplySteering();
+
     }
 
 
@@ -52,28 +55,28 @@ public class TopDownCarController : MonoBehaviour
     void ApplyEngineForce()
     {
 
-        // Calculate how much "forward" we are going in terms of the direction of our velocity (
+        // ---- Calculate how much "forward" we are going in terms of the direction of our velocity ---- 
         velocityVsUp = Vector2.Dot(transform.up, carRigidbody2D.linearVelocity);
 
-        // Limit so we cannot go faster than the max speed in the "forward" direction
+        // ---- Limit so we cannot go faster than the max speed in the "forward" direction ---- 
         if (velocityVsUp > maxSpeed && accelerationInput > 0)
         {
             return;
         }
 
-        // Limit so we cannot go faster than the 30% of max speed in the "reverse" direction
+        // ---- Limit so we cannot go faster than the 30% of max speed in the "reverse" direction ---- 
         if (velocityVsUp < -maxSpeed * 0.3f && accelerationInput < 0)
         {
             return;
         }
 
-        // Limit so we cannot go faster in any direction while accelerating
+        // ---- Limit so we cannot go faster in any direction while accelerating ---- 
         if (carRigidbody2D.linearVelocity.sqrMagnitude > maxSpeed * maxSpeed && accelerationInput > 0)
         {
             return;
         }
 
-        // Apply drag if there is no accelerationInput so the car stops when the player lets go of the accelerator
+        // ---- Apply drag if there is no accelerationInput so the car stops when the player lets go of the accelerator ---- 
         if (accelerationInput == 0)
         {
             carRigidbody2D.linearDamping = Mathf.Lerp(carRigidbody2D.linearDamping, 3.0f, Time.fixedDeltaTime * 3);
@@ -84,24 +87,65 @@ public class TopDownCarController : MonoBehaviour
         }
 
 
-        // Create a force for the engine
+        // ---- Create a force for the engine ----
         Vector2 engineForceVector = transform.up * accelerationInput * accelerationFactor;
 
         // Applay force and pushe the car forward
         carRigidbody2D.AddForce(engineForceVector, ForceMode2D.Force);
+
+        
     }
 
     void ApplySteering()
     {
-        // Limit the cars ability to turn when moving slowly
+        // ---- Limit the cars ability to turn when moving slowly ---- 
         float minSpeedBeforeAllowTurningFactor = (carRigidbody2D.linearVelocity.magnitude / 8);
         minSpeedBeforeAllowTurningFactor = Mathf.Clamp01(minSpeedBeforeAllowTurningFactor);
 
-        // Update the rotation angle based on input
+        // ---- Update the rotation angle based on input ---- 
         rotationAngle -= steeringInput * turnFactor * minSpeedBeforeAllowTurningFactor;
 
-        // Apply steering by rotating the car object
+        // ---- Apply steering by rotating the car object ---- 
         carRigidbody2D.MoveRotation(rotationAngle);
+    }
+
+    void KillOrthogonalVelocity()
+    {
+        // ---- calculates how much forward velocity the car has; by taking the transform up with te Vetor.Dot  ---- 
+        Vector2 forwardVelocity = transform.up * Vector2.Dot(carRigidbody2D.linearVelocity, transform.up);
+        // ---- calculates how much right velocity the car has; by taking the transform up with te Vetor.Dot ---- 
+        Vector2 rightVelocity = transform.right * Vector2.Dot(carRigidbody2D.linearVelocity, transform.right);
+
+        // the result formula
+        carRigidbody2D.linearVelocity = forwardVelocity + rightVelocity * driftFactor;
+    }
+
+    float GetLateralVelocity()
+    {
+        // ---- Returns how fast the car is moving sideways  ----
+        return Vector2.Dot(transform.right, carRigidbody2D.linearVelocity);
+    }
+
+    public bool IsTireScreeching(out float lateralVelocity, out bool isBraking)
+    {
+        lateralVelocity = GetLateralVelocity();
+        isBraking = false;
+
+        // ---- Checking if player is moving forward and if the player is hittings the brakes. In that case the tires should screech ----
+        if (accelerationInput < 0 && velocityVsUp > 0)
+        {
+            isBraking = true;
+            return true;
+        }
+        
+        // ---- if player has a lot of side movement then  the tires should be screeching ----
+        if (Mathf.Abs(GetLateralVelocity()) > .5f)
+        {
+            return true;
+        }
+
+        return false;
+
     }
 
     public void SetInputVector(Vector2 inputVector)
@@ -110,14 +154,5 @@ public class TopDownCarController : MonoBehaviour
         accelerationInput = inputVector.y;
     }
 
-    void KillOrthogonalVelocity()
-    {
-        // calculates how much forward velocity the car has; by taking the transform up with te Vetor.Dot
-        Vector2 forwardVelocity = transform.up * Vector2.Dot(carRigidbody2D.linearVelocity, transform.up);
-        // calculates how much right velocity the car has; by taking the transform up with te Vetor.Dot
-        Vector2 rightVelocity = transform.right * Vector2.Dot(carRigidbody2D.linearVelocity, transform.right);
 
-        // the result formula
-        carRigidbody2D.linearVelocity = forwardVelocity + rightVelocity * driftFactor;
-    }
 }

@@ -15,7 +15,7 @@ public class Boosts : MonoBehaviour
     [Header("Other")]
     private float originalFactor;
     private float originalMaxSpeed;
-    private bool hasPackage;
+    private bool hasBoost;
 
     private void Awake()
     {
@@ -26,23 +26,24 @@ public class Boosts : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision)
     {
         
-        if (collision.CompareTag("Boost") && !hasPackage)
+        if (collision.CompareTag("Boost") && !hasBoost)
         {
             Debug.Log("Speed boost collected!");
-            hasPackage = true;
+            hasBoost = true;
             Destroy(collision.gameObject);
             GetComponent<ParticleSystem>().Play();
+
             // ---------- Apply boost ----------
             car.accelerationFactor *= boostMultiplier;
             car.maxSpeed *= boostMultiplier;
-            Invoke(nameof(ResetBoost), boostDuration); // Calls "ResetBoost" after the given number of seconds without needing a coroutine
-        }
 
-        //if (collision.CompareTag("Customer") && hasPackage)
-        //{
-        //    Debug.Log("This also working!");
-        //    hasPackage = false;
-        //}
+            // ---------- Play sounds ----------
+            SoundManager.Instance.PlayCollectibleSounds();
+
+            /* ---------- Calls "ResetBoost" after the given number of 
+               seconds without needing a coroutine ----------       */
+            Invoke(nameof(ResetBoost), boostDuration); 
+        }
     }
     private void ResetBoost()
     {
@@ -50,7 +51,8 @@ public class Boosts : MonoBehaviour
         {
             car.accelerationFactor = originalFactor;
             car.maxSpeed = originalMaxSpeed;
-            hasPackage = false; // allow next pickup
+            // ---------- Allow next pickup ----------
+            hasBoost = false; 
         }
     }
 

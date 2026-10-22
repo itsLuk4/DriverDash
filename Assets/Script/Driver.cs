@@ -22,6 +22,7 @@ public class Driver : MonoBehaviour
         if (Keyboard.current.wKey.isPressed)
         {
             inputVector.y = 1f;
+
         }
         if (Keyboard.current.sKey.isPressed)
         {
