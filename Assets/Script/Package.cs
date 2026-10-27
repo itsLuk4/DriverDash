@@ -2,20 +2,20 @@ using UnityEngine;
 
 public class Package : MonoBehaviour
 {
-    bool hasPackage;
-    private void FixedUpdate()
-    {
-        
-    }
+    [Header("Package Settings")]
+    internal bool hasPackage;
+    [SerializeField] float delay = .5f;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.CompareTag("Customer"))
+        // ---------- Only handles package pickup ----------
+        if (collision.CompareTag("Package") && !hasPackage)
         {
-            Debug.Log("This also working!");
-            hasPackage = false;
+            Debug.Log("Picked up package");
+            hasPackage = true;
+            Destroy(collision.gameObject, delay);
+
         }
     }
-
 }
 

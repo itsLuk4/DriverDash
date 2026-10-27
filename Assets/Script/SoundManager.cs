@@ -1,3 +1,5 @@
+using JetBrains.Annotations;
+using System;
 using UnityEditor;
 using UnityEngine;
 
@@ -23,13 +25,32 @@ public class SoundManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void PlayDriveSound()
+    public void StartEngineSound()
     {
-        audioSource.PlayOneShot(driveSound);
+        audioSource.clip = driveSound;
+        audioSource.loop = true;
+        audioSource.Play();
+    }
+
+    public void StopEngineSound()
+    {
+        audioSource.Stop();
     }
 
     public void PlayCollectibleSounds()
     {
         audioSource.PlayOneShot(collectibleSound);
+    }
+
+    public bool IsEnginePlaying()
+    {
+        // ---- checks if audio source is currently playing something ----
+        bool isPlaying = audioSource.isPlaying;
+
+        // ---- checks if that something is our engine clip (not collectible sound) ----
+        bool isEngineClip = audioSource.clip == driveSound;
+
+        // ---- Both must be true ----
+        return isPlaying && isEngineClip;
     }
 }

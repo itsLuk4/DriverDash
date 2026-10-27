@@ -6,8 +6,10 @@ using UnityEngine;
 public class Boosts : MonoBehaviour
 {
     [Header("Boost Settings")]
-    public float boostMultiplier = 1.5f; // how much faster
-    public float boostDuration = 3f; //seconds
+    // ---------- how much faster ----------
+    public float boostMultiplier = 1.5f; 
+    // ---------- seconds ----------
+    public float boostDuration = 3f; 
 
     [Header("Components")]
     private TopDownCarController car;
@@ -51,6 +53,7 @@ public class Boosts : MonoBehaviour
         {
             car.accelerationFactor = originalFactor;
             car.maxSpeed = originalMaxSpeed;
+
             // ---------- Allow next pickup ----------
             hasBoost = false; 
         }

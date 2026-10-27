@@ -11,9 +11,10 @@ public class TopDownCarController : MonoBehaviour
     float accelerationInput = 0;
     public float accelerationFactor = 30f;
     public float maxSpeed = 20;
-    
 
-    
+    [Header("Audio")]
+    [SerializeField] SoundManager soundManager;
+
     [Header("Steering")]
     // Local variables
     [SerializeField] float driftFactor = 0.95f;
@@ -25,7 +26,6 @@ public class TopDownCarController : MonoBehaviour
     // Components
     [Header("Components")]
     Rigidbody2D carRigidbody2D;
-    Boosts delivery;
 
     // ---- Awake is called when the script instance is being loaded ---- 
     private void Awake()
@@ -54,6 +54,19 @@ public class TopDownCarController : MonoBehaviour
 
     void ApplyEngineForce()
     {
+
+        // ---- Engine sounds logic ----
+        if (soundManager != null)
+        {
+            if (accelerationInput != 0 && !soundManager.IsEnginePlaying())
+            {
+                soundManager.StartEngineSound();
+            }
+            else if (accelerationInput == 0 && soundManager.IsEnginePlaying())
+            {
+                soundManager.StopEngineSound();
+            }
+        }
 
         // ---- Calculate how much "forward" we are going in terms of the direction of our velocity ---- 
         velocityVsUp = Vector2.Dot(transform.up, carRigidbody2D.linearVelocity);
@@ -138,8 +151,8 @@ public class TopDownCarController : MonoBehaviour
             return true;
         }
         
-        // ---- if player has a lot of side movement then  the tires should be screeching ----
-        if (Mathf.Abs(GetLateralVelocity()) > .5f)
+        // ---- if player has a lot of side movement then the tires should be screeching ----
+        if (Mathf.Abs(GetLateralVelocity()) > .2f)
         {
             return true;
         }
