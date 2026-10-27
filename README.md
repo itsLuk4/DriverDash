@@ -1,6 +1,6 @@
 # Driver Dash
 
-Driver Dash is a 2D top-down racing game that showcases driving logic, collision handling, boosts, drifting, and interaction with the environment.
+Driver Dash is a 2D top-down car delivery game that showcases driving logic, collision handling, boosts, drifting, and interaction with the environment.
 
 ![demo](./Assets/Demo%20GIF's/DriverDash_Smooth.gif)
 
@@ -21,14 +21,16 @@ Driver Dash is a 2D top-down racing game that showcases driving logic, collision
   - Boost pickups
   - Drifting mechanics
   - Interactive environment (NPC, Pickup items,...)
-  - Implemented boost mechanic (speed bursts)
+  - Package delivery system
 
 ## Technical Details
 
 Built with Unity using C#. Key scripts:
 - `TopDownCarController.cs`: Has all the driving and steering logic. 
 - `Driver.cs`: Has set up Vertical and Horizontal axis when pressing keyboard movement.
-- `Delivery.cs`: Handles OnTrigger situations. Like picking up an item, getting a boost etc.
+- `Package.cs`: Handles OnTrigger situations. Like picking up an item, getting a boost etc.
+- `NPC.cs`: Handles animations and transitions (later convo bubble)
+etc.
 
 ## How to Play
 
@@ -40,9 +42,8 @@ Built with Unity using C#. Key scripts:
 ## Future Features
 
 - Implement drifting visual effects and mechanics
-- Add lap timing and race logic
-- Expand level variety with different tracks
+- Package delivery mechanic
+- Timer for delivery
 - Add sound effects and music
-- Implement opponent AI cars
 
 Enjoy the ride!
